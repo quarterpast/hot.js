@@ -10,6 +10,7 @@ exports.load = function(file,callback) {
 	fs.watch(file,function(event,name) {
 		if(!name) name = file;
 		if(name != file) delete exports.modules[path.basename(file,".js")]
+		name = path.join(path.dirname(file),path.basename(name));
 		delete require.cache[path.join(__dirname,name)];
 		that.module = exports.modules[path.basename(name,".js")] = require(name);
 		that.emit("reload",that.module,name);
